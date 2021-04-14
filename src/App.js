@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import HomePage from "./pages/homepage/homepage.component";
 import Header from "./components/header/header.component";
@@ -25,13 +25,18 @@ function App() {
     unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       // console.log(userAuth);
       const useRef = await createUserProfileDocument(userAuth);
-      useRef.onSnapshot((snapShot) => {
-        // console.log(snapShot.data());
-        setCurrentUser({
-          id: snapShot.id,
-          ...snapShot.data(),
+
+      if (userAuth) {
+        useRef.onSnapshot((snapShot) => {
+          // console.log(snapShot.data());
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
+          });
         });
-      });
+      } else {
+        setCurrentUser(userAuth);
+      }
     });
 
     // cleanup function
@@ -42,11 +47,16 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header currentUser={currentUser} />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
-        <Route path="/signin" component={SignInAndSignUp} />
+        <Route
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+          }
+        />
         <Route component={PageNotFound} />
       </Switch>
     </div>
