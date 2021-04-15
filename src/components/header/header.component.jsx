@@ -5,6 +5,8 @@ import './header.styles.scss'
 
 import Logo from '../../assets/ClothingYa.png'
 import { auth } from '../../firebase/firebase.util'
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import CartIcon from '../cart-icon/cart-icon.component';
 
 
 const Header = ({ currentUser }) => (
@@ -26,6 +28,11 @@ const Header = ({ currentUser }) => (
           Sign In
         </Link>
       )}
+      <CartIcon />
+      {/* {
+        hidden ? null : <CartDropdown />
+      } */}
+      {/* <CartDropdown cartItems={[]} /> */}
     </div>
   </div>
 )
