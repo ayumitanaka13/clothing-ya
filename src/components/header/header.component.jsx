@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/ClothingYa.png";
 import { auth } from "../../firebase/firebase.util";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+import CartIcon from "../cart-icon/cart-icon.component";
 import "./header.styles.scss";
 
 const Header = ({ currentUser }) => {
@@ -23,6 +25,11 @@ const Header = ({ currentUser }) => {
             Sign In
           </Link>
         )}
+        <CartIcon />
+        {/* {
+          hidden? null :
+        } */}
+        {/* <CartDropdown cartItems={[]} /> */}
       </div>
     </div>
   );
