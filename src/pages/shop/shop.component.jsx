@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 
-import SHOP_DATA from './shop.data.js'
+// import SHOP_DATA from './shop.data.js'
+import { firestore, convertCollectionSnapShotToMap } from '../../firebase/firebase.util'
 import CollectionPreview from '../../components/collection-preview/collection-preview.component'
 
-const ShopPage = () => {
+const ShopPage = ({collectionsProps}) => {
 
     const [collections, setCollections] = useState([])
 
     useEffect(() => {
-        setCollections(SHOP_DATA)
+        // setCollections(SHOP_DATA)
+
+        let unsubscribeFromSnapShot = null
+
+        const collectionRef = firestore.collection('collections')
+
+        unsubscribeFromSnapShot = collectionRef.onSnapshot(async (snapShot) => {
+            const collectionsMap = convertCollectionSnapShotToMap(snapShot)
+            console.log('map: ', collectionsMap)
+        })
     }, [])
 
     return(
@@ -45,4 +56,8 @@ const ShopPage = () => {
 //   }
 // }
 
-export default ShopPage
+const mapStateToProps = (state) => ({
+    collectionsProps: state.shop.collections
+})
+
+export default connect(mapStateToProps)(ShopPage)
