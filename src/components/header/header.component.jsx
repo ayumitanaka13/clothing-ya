@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import './header.styles.scss'
+// import './header.styles.scss'
+import {HeaderContainer, LogoContainer, OptionContainer, OptionLink} from './header.styles';
 
 import Logo from '../../assets/ClothingYa.png'
 import { auth } from '../../firebase/firebase.util'
@@ -11,30 +12,29 @@ import CartIcon from '../cart-icon/cart-icon.component';
 
 
 const Header = ({ currentUser, hiddenProps }) => (
-  <div className='header'>
-    <Link className='logo-container' to='/'>
-      <img src={Logo} alt='logo' />
-    </Link>
-    <div className='options'>
-      <Link className='option' to='/shop'>
-        Shop
-      </Link>
-
-      {currentUser ? (
-        <div className='option' onClick={() => auth.signOut()}>
-            Sign Out
-        </div>
-      ) : (
-        <Link className='option' to='/signin'>
-          Sign In
-        </Link>
-      )}
-      <CartIcon />
+  <HeaderContainer>
+    <LogoContainer to='/'>
+      <img src={Logo} alt='logo'  className='logo' />
+    </LogoContainer>
+    <OptionContainer>
+      <OptionLink to='/shop'>
+        SHOP
+      </OptionLink>
+      <OptionLink to='/shop'>
+        CONTACT
+      </OptionLink>
       {
-        hiddenProps ? null : <CartDropdown />
+        currentUser ?
+        <OptionLink as="div" onClick={()=> auth.signOut()}> SIGN OUT </OptionLink>
+        :
+        <OptionLink to='/signin'>SIGN IN</OptionLink>
       }
-    </div>
-  </div>
+      <CartIcon />
+    </OptionContainer>
+    {
+      hiddenProps ? null : <CartDropdown />
+    }
+  </HeaderContainer>
 )
 
 const mapStateToProps  = (state) => ({

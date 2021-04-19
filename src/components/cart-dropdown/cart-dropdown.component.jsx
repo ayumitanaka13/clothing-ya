@@ -1,24 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import './cart-dropdown.styles.scss'
+// import './cart-dropdown.styles.scss'
+import {
+  CartDropdownContainer,
+  CartDropdownButton,
+  EmptyMessageContainer,
+  CartItemsContainer,
+} from './cart-dropdown.styles'
 
 import CartItem from '../cart-item/cart-item.component'
-import CustomButton from '../custom-button/custom-button.component'
-import { CartDropdownContainer, CartDropdownButton } from './cart-dropdown.styles'
+// import CustomButton from '../custom-button/custom-button.component'
 
 const CartDropdown = ({ cartItemProps }) => {
   return (
     <CartDropdownContainer>
-      <div className='cart-items'>
+      <CartItemsContainer>
         {cartItemProps.length ? (
           cartItemProps.map((cartItem) => (
             <CartItem key={cartItem.id} item={cartItem} />
           ))
         ) : (
-          <span className='empty-message'>Your cart is empty</span>
+          <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
         )}
-      </div>
+      </CartItemsContainer>
       <CartDropdownButton>GO TO CHECKOUT</CartDropdownButton>
     </CartDropdownContainer>
   )
