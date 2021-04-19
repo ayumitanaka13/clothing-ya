@@ -12,7 +12,7 @@ import { toggleCartHidden } from '../../redux/cart/cart.actions'
 // import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg'
 
 const CartIcon = ({ toggleCartHiddenProps, itemCount }) => (
-  <CartContainer onClick={toggleCartHidden}>
+  <CartContainer onClick={toggleCartHiddenProps}>
     <ShoppingIcon />
     <ItemCountContainer>{itemCount}</ItemCountContainer>
   </CartContainer>
