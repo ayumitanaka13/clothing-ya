@@ -1,23 +1,61 @@
-import React, { useState, useEffect } from "react";
-import SHOP_DATA from "./shop.data";
+import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  firestore,
+  convertCollectionSnapShotToMap,
+} from "../../firebase/firebase.util";
+import {
+  fetchCollectionsStartAsync,
+  updateCollection,
+} from "../../redux/shop/shop.actions";
+import CollectionOverviewContainer from "../../components/collection-overview/collection-overview.container";
+import CollectionPageContainer from "../collection/collection-page.container";
 
-import CollectionPreview from "../../components/collection-preview/collection-preview.component";
-
-const ShopPage = () => {
-  const [collections, setCollections] = useState(SHOP_DATA);
-
+const ShopPage = ({
+  fetchCollectionsStartAsyncProps,
+  updateCollectionProps,
+  match,
+}) => {
   useEffect(() => {
-    setCollections(SHOP_DATA);
+    fetchCollectionsStartAsyncProps();
+
+    let unsubscribeFromSnapShot = null;
+
+    const collectionRef = firestore.collection("collections");
+
+    unsubscribeFromSnapShot = collectionRef.onSnapshot(async (snapShot) => {
+      const collectionsMap = convertCollectionSnapShotToMap(snapShot);
+      updateCollectionProps(collectionsMap);
+    });
+    return () => {
+      unsubscribeFromSnapShot();
+    };
   }, []);
 
   return (
     <div className="shop-page">
-      {collections &&
-        collections.map(({ id, ...otherCollectionProps }) => (
-          <CollectionPreview key={id} {...otherCollectionProps} />
-        ))}
+      <Route
+        exact
+        path={`${match.path}`}
+        component={CollectionOverviewContainer}
+      />
+      <Route
+        path={`${match.path}/:collectionId`}
+        component={CollectionPageContainer}
+      />
     </div>
   );
 };
 
-export default ShopPage;
+const mapStateToProps = (state) => ({
+  collectionsProps: state.shop.collections,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateCollectionProps: (collectionsMap) =>
+    dispatch(updateCollection(collectionsMap)),
+  fetchCollectionsStartAsyncProps: () => dispatch(fetchCollectionsStartAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
