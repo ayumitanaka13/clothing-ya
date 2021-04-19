@@ -9,13 +9,15 @@ import {
 
 import CollectionItem from '../collection-item/collection-item.component';
 
-const CollectionPreview = ({ title, items}) => (
+const CollectionPreview = ({ title, items}) => {
+  console.log(title)
+  return(
     <CollectionPreviewContainer>
     <TitleContainer>
-      {title.toUpperCase()}
+      {title && title.toUpperCase()}
     </TitleContainer>
     <PreviewContainer>
-      {items
+      {items && items
         .filter((item, idx) => idx < 4)
         .map(item => (
           <CollectionItem key={item.id} item={item} />
@@ -32,6 +34,6 @@ const CollectionPreview = ({ title, items}) => (
     //         }
     //     </div>
     // </div>
-)
+)}
 
 export default CollectionPreview
