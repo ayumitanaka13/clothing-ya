@@ -2,12 +2,6 @@ import React, { useEffect } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-// import SHOP_DATA from './shop.data.js'
-import {
-  firestore,
-  convertCollectionSnapShotToMap,
-} from '../../firebase/firebase.util'
-
 import {fetchCollectionsStartAsync} from '../../redux/shop/shop.actions'
 
 import CollectionOverviewContainer from '../../components/collection-overview/collection-overview.container'
