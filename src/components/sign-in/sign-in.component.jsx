@@ -1,9 +1,15 @@
 import React, { Component } from "react";
+
+// import './sign-in.styles.scss'
+import {
+  SignInContainer,
+  SignInTitle,
+  ButtonsBarContainer,
+} from "./sign-in.styles";
+
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { auth, signInWithGoogle } from "../../firebase/firebase.util";
-
-import "./sign-in.styles.scss";
 
 class SignIn extends Component {
   constructor(props) {
@@ -15,13 +21,13 @@ class SignIn extends Component {
     };
   }
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
+  handleSubmit = async (event) => {
+    event.preventDefault();
 
     // this.setState({
-    //   email: "",
-    //   password: "",
-    // });
+    //     email: '',
+    //     password: ''
+    // })
 
     try {
       await auth.signInWithEmailAndPassword(
@@ -33,8 +39,8 @@ class SignIn extends Component {
     }
   };
 
-  handleChange = (e) => {
-    const { value, name } = e.target;
+  handleChange = (event) => {
+    const { value, name } = event.target;
 
     this.setState({
       [name]: value,
@@ -43,33 +49,36 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="sign-in">
-        <h2>I already have an account</h2>
-        <span>Sign in with your email and pass</span>
+      <SignInContainer>
+        <SignInTitle>I already have an account</SignInTitle>
+        <span>Sign in with your email and password</span>
 
         <form onSubmit={this.handleSubmit}>
           <FormInput
+            handleChange={this.handleChange}
             name="email"
             type="email"
-            handleChange={this.handleChange}
             value={this.state.email}
             label="Email"
             required
           />
           <FormInput
+            handleChange={this.handleChange}
             name="password"
             type="password"
-            handleChange={this.handleChange}
             value={this.state.password}
             label="Password"
             required
           />
-          <CustomButton type="submit">Sign In</CustomButton>
-          <CustomButton type="button" onClick={signInWithGoogle}>
-            Sign In With Google
-          </CustomButton>
+          <ButtonsBarContainer>
+            <CustomButton type="submit">Sign In</CustomButton>
+
+            <CustomButton type="button" onClick={signInWithGoogle}>
+              Sign in with Google
+            </CustomButton>
+          </ButtonsBarContainer>
         </form>
-      </div>
+      </SignInContainer>
     );
   }
 }

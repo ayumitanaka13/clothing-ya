@@ -1,41 +1,54 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { Link } from "react-router-dom";
+
+// import './header.styles.scss'
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionContainer,
+  OptionLink,
+} from "./header.styles";
+
 import Logo from "../../assets/ClothingYa.png";
 import { auth } from "../../firebase/firebase.util";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.component";
-import "./header.styles.scss";
+import { selectCartHidden } from "../../redux/cart/cart.selector";
+import { selectCurrentUser } from "../../redux/user/user.selector";
 
-const Header = ({ currentUser, hiddenProps }) => {
-  return (
-    <div className="header">
-      <Link className="logo-container" to="/">
-        <img src={Logo} alt="logo" />
-      </Link>
-      <div className="options">
-        <Link className="option" to="/shop">
-          Shop
-        </Link>
-        {currentUser ? (
-          <Link className="option" onClick={() => auth.signOut()}>
-            Sign Out
-          </Link>
-        ) : (
-          <Link className="option" to="/signin">
-            Sign In
-          </Link>
-        )}
-        <CartIcon />
-        {hiddenProps ? null : <CartDropdown cartItems={[]} />}
-      </div>
-    </div>
-  );
-};
+const Header = ({ currentUser, hiddenProps }) => (
+  <HeaderContainer>
+    <LogoContainer to="/">
+      <img src={Logo} alt="logo" className="logo" />
+    </LogoContainer>
+    <OptionContainer>
+      <OptionLink to="/shop">SHOP</OptionLink>
+      {currentUser ? (
+        <OptionLink as="div" onClick={() => auth.signOut()}>
+          {" "}
+          SIGN OUT{" "}
+        </OptionLink>
+      ) : (
+        <OptionLink to="/signin">SIGN IN</OptionLink>
+      )}
+      <CartIcon />
+    </OptionContainer>
+    {hiddenProps ? null : <CartDropdown />}
+  </HeaderContainer>
+);
 
-const mapStateToProps = (state) => ({
-  hiddenProps: state.cart.hidden,
+// const mapStateToProps  = ({cart: { hidden } }) => ({
+//   hiddenProps: hidden
+// })
+
+// const mapStateToProps = (state) => ({
+//   hiddenProps: state.cart.hidden,
+// })
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hiddenProps: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);
