@@ -18,6 +18,11 @@ import {
 import CollectionOverviewContainer from '../../components/collection-overview/collection-overview.container'
 import CollectionPageContainer from '../collection/collection-page.container'
 
+
+
+
+
+
 const ShopPage = ({
   fetchCollectionsStartProps,
   fetchCollectionsSuccessProps,
@@ -92,9 +97,9 @@ const ShopPage = ({
 //   }
 // }
 
-const mapStateToProps = (state) => ({
-  collectionsProps: state.shop.collections,
-})
+// const mapStateToProps = (state) => ({
+//   collectionsProps: state.shop.collections,
+// })
 
 const mapDispatchToProps = (dispatch) => ({
   updateCollectionProps: (collectionsMap) =>dispatch(updateCollection(collectionsMap)),
@@ -103,4 +108,4 @@ const mapDispatchToProps = (dispatch) => ({
   fetchCollectionsFailureProps: (err) => dispatch(fetchCollectionsFailure(err)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShopPage)
+export default connect(null, mapDispatchToProps)(ShopPage)
