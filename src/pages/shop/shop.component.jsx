@@ -7,10 +7,8 @@ import {
   firestore,
   convertCollectionSnapShotToMap,
 } from '../../firebase/firebase.util'
-// import CollectionPreview from '../../components/collection-preview/collection-preview.component'
-// import CollectionOverview from '../../components/collection-overview/collections-overview.component'
+
 import {
-  fetchCollectionsStartAsync,
   fetchCollectionsStart,
   fetchCollectionsSuccess,
   fetchCollectionsFailure,
@@ -21,9 +19,10 @@ import CollectionOverviewContainer from '../../components/collection-overview/co
 import CollectionPageContainer from '../collection/collection-page.container'
 
 const ShopPage = ({
-  fetchCollectionsStartAsyncProps,
+  fetchCollectionsStartProps,
   fetchCollectionsSuccessProps,
   updateCollectionProps,
+  fetchCollectionsFailureProps,
   match,
 }) => {
   useEffect(() => {
@@ -33,12 +32,16 @@ const ShopPage = ({
 
     const collectionRef = firestore.collection('collections')
 
-    unsubscribeFromSnapShot = collectionRef.onSnapshot(async (snapShot) => {
-      fetchCollectionsStart()
-      const collectionsMap = convertCollectionSnapShotToMap(snapShot)
-      //   updateCollectionProps(collectionsMap)
-      fetchCollectionsSuccessProps(collectionsMap)
-    })
+    try {
+      unsubscribeFromSnapShot = collectionRef.onSnapshot(async (snapShot) => {
+        fetchCollectionsStartProps()
+        const collectionsMap = await convertCollectionSnapShotToMap(snapShot)
+        // updateCollectionProps(collectionsMap)
+        fetchCollectionsSuccessProps(collectionsMap)
+      })
+    } catch (error) {
+      fetchCollectionsFailureProps(error.message)
+    }
 
     return () => {
       unsubscribeFromSnapShot() //unsubscribe
@@ -94,10 +97,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  updateCollectionProps: (collectionsMap) => dispatch(updateCollection(collectionsMap)),
-//   fetchCollectionsStartAsyncProps: () => dispatch(fetchCollectionsStartAsync()),
-  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
-  fetchCollectionsSuccessProps: (collectionsMap) => fetchCollectionsSuccess(collectionsMap),
+  updateCollectionProps: (collectionsMap) =>dispatch(updateCollection(collectionsMap)),
+  fetchCollectionsStartProps: () => dispatch(fetchCollectionsStart()),
+  fetchCollectionsSuccessProps: (collectionsMap) => dispatch(fetchCollectionsSuccess(collectionsMap)),
+  fetchCollectionsFailureProps: (err) => dispatch(fetchCollectionsFailure(err)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPage)
