@@ -11,6 +11,9 @@ import {
 // import CollectionOverview from '../../components/collection-overview/collections-overview.component'
 import {
   fetchCollectionsStartAsync,
+  fetchCollectionsStart,
+  fetchCollectionsSuccess,
+  fetchCollectionsFailure,
   updateCollection,
 } from '../../redux/shop/shop.actions'
 
@@ -19,19 +22,22 @@ import CollectionPageContainer from '../collection/collection-page.container'
 
 const ShopPage = ({
   fetchCollectionsStartAsyncProps,
+  fetchCollectionsSuccessProps,
   updateCollectionProps,
-  match
+  match,
 }) => {
   useEffect(() => {
-    fetchCollectionsStartAsyncProps()
+    // fetchCollectionsStartAsyncProps() //promise-based fetching of data
 
     let unsubscribeFromSnapShot = null
 
     const collectionRef = firestore.collection('collections')
 
     unsubscribeFromSnapShot = collectionRef.onSnapshot(async (snapShot) => {
+      fetchCollectionsStart()
       const collectionsMap = convertCollectionSnapShotToMap(snapShot)
-      updateCollectionProps(collectionsMap)
+      //   updateCollectionProps(collectionsMap)
+      fetchCollectionsSuccessProps(collectionsMap)
     })
 
     return () => {
@@ -47,8 +53,15 @@ const ShopPage = ({
             ))
         } */}
 
-      <Route exact path={`${match.path}`} component={CollectionOverviewContainer} />
-      <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
+      <Route
+        exact
+        path={`${match.path}`}
+        component={CollectionOverviewContainer}
+      />
+      <Route
+        path={`${match.path}/:collectionId`}
+        component={CollectionPageContainer}
+      />
     </div>
   )
 }
@@ -81,9 +94,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  updateCollectionProps: (collectionsMap) =>
-    dispatch(updateCollection(collectionsMap)),
-  fetchCollectionsStartAsyncProps: () => dispatch(fetchCollectionsStartAsync()),
+  updateCollectionProps: (collectionsMap) => dispatch(updateCollection(collectionsMap)),
+//   fetchCollectionsStartAsyncProps: () => dispatch(fetchCollectionsStartAsync()),
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
+  fetchCollectionsSuccessProps: (collectionsMap) => fetchCollectionsSuccess(collectionsMap),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPage)

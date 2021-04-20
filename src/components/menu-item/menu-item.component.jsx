@@ -13,7 +13,7 @@ class MenuItem extends Component {
   render() {
     const { title, imageUrl, size, history, linkUrl } = this.props
     return (
-      <MenuItemContainer size={size}>
+      <MenuItemContainer size={size} id={title}>
         <BackgroundImageContainer
           className='background-image'
           imageUrl={imageUrl}

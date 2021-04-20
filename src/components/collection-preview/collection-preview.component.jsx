@@ -9,9 +9,7 @@ import {
 
 import CollectionItem from '../collection-item/collection-item.component';
 
-const CollectionPreview = ({ title, items}) => {
-  console.log(title)
-  return(
+const CollectionPreview = ({ title, items}) => (
     <CollectionPreviewContainer>
     <TitleContainer>
       {title && title.toUpperCase()}
@@ -34,6 +32,6 @@ const CollectionPreview = ({ title, items}) => {
     //         }
     //     </div>
     // </div>
-)}
+)
 
 export default CollectionPreview
