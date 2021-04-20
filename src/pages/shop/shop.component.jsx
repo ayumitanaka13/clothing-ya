@@ -20,9 +20,6 @@ import CollectionPageContainer from '../collection/collection-page.container'
 
 
 
-
-
-
 const ShopPage = ({
   fetchCollectionsStartProps,
   fetchCollectionsSuccessProps,
