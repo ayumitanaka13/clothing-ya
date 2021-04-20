@@ -11,7 +11,7 @@ import {
 
 class MenuItem extends Component {
   render() {
-    const { title, imageUrl, size, history, linkUrl } = this.props
+    const { title, imageUrl, size, history, linkUrl, match } = this.props
     return (
       <MenuItemContainer size={size} id={title}>
         <BackgroundImageContainer
