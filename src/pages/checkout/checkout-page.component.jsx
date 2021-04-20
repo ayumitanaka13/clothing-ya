@@ -11,6 +11,7 @@ import {
 } from './checkout-page.styles'
 
 import {selectCartTotal, selectCartItems } from '../../redux/cart/cart.selector'
+import CheckOutItem from '../../components/checkout-item/checkout-item.component';
 
 const CheckoutPage = ({ cartItems, total }) => (
     <CheckoutPageContainer>
@@ -33,7 +34,7 @@ const CheckoutPage = ({ cartItems, total }) => (
         </CheckoutHeaderContainer>
         
         {cartItems.map((cartItem) => (
-            //checkout item component 
+            <CheckOutItem key={cartItem.id} cartItem={cartItem} />
         ))}
 
         <TotalContainer>TOTAL: ${total}</TotalContainer>
@@ -41,7 +42,7 @@ const CheckoutPage = ({ cartItems, total }) => (
             
         </WarningContainer>
 
-        //stripe button here
+        {/* //stripe button here */}
     </CheckoutPageContainer>
 )
 
