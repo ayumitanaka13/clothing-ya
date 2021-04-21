@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 // import './menu-item.styles.scss';
 import {
@@ -7,18 +7,22 @@ import {
   ContentContainer,
   ContentTitle,
   ContentSubtitle,
-} from './menu-item.styles'
+} from "./menu-item.styles";
 
 class MenuItem extends Component {
   render() {
-    const { title, imageUrl, size, history, linkUrl, match } = this.props
+    const { title, imageUrl, size, history, linkUrl, match } = this.props;
     return (
-      <MenuItemContainer size={size} id={title}>
+      <MenuItemContainer
+        size={size}
+        id={title}
+        onClick={() => history.push(`${match.url}/${linkUrl}`)}
+      >
         <BackgroundImageContainer
-          className='background-image'
+          className="background-image"
           imageUrl={imageUrl}
         />
-        <ContentContainer className='content'>
+        <ContentContainer className="content">
           <ContentTitle>{title.toUpperCase()}</ContentTitle>
           <ContentSubtitle>SHOP NOW</ContentSubtitle>
         </ContentContainer>
@@ -35,8 +39,8 @@ class MenuItem extends Component {
       //     <span className='subtitle'>SHOP NOW</span>
       //   </div>
       // </div>
-    )
+    );
   }
 }
 
-export default MenuItem
+export default MenuItem;

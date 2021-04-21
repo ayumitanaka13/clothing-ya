@@ -12,12 +12,13 @@ class Directory extends React.Component {
   render() {
     return (
       <DirectoryMenuContainer>
-        {this.props.sections.map(({ title, imageUrl, id, size }) => (
+        {this.props.sections.map(({ title, imageUrl, id, size, linkUrl }) => (
           <MenuItem
             key={id}
             title={title}
             imageUrl={imageUrl}
             size={size}
+            linkUrl={linkUrl}
             className={title}
           />
         ))}
