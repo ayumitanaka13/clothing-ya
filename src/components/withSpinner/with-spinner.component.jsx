@@ -15,4 +15,4 @@ const WithSpinner = WrappedComponent => {
     return Spinner
 }
 
-export default WithSpinner
+export default WithSpinner 
