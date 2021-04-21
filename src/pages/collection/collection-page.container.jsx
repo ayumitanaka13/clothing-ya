@@ -22,8 +22,10 @@ const CollectionPageContainer = ({ match }) => {
   const { loading, error, data } = useQuery(GET_COLLECTION_BY_TITLE, {
     variables: { title: match.params.collectionId },
   });
+
   if (loading) return <Spinner />;
-  if (error) return <p>Error</p>;
+  if (error) return <p>Error :(</p>;
+
   return <CollectionPage collections={data.getCollectionsByTitle} />;
 };
 

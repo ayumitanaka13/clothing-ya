@@ -15,20 +15,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// client
-//   .query({
-//     query: gql`
-//       {
-//         getCollectionsByTitle(title: "jackets") {
-//           items {
-//             name
-//             price
-//           }
+// client.query({
+//   query: gql`
+//     {
+//       getCollectionsByTitle(title: "jackets") {
+//         items {
+//           name
+//           price
 //         }
 //       }
-//     `,
-//   })
-//   .then((result) => console.log(result));
+//     }
+//   `,
+// }).then((result) => console.log(result))
 
 ReactDOM.render(
   <ApolloProvider client={client}>

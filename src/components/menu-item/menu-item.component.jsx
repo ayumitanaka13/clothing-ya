@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 // import './menu-item.styles.scss';
 import {
@@ -16,7 +17,7 @@ class MenuItem extends Component {
       <MenuItemContainer
         size={size}
         id={title}
-        onClick={() => history.push(`${match.url}/${linkUrl}`)}
+        onClick={() => history.push(`${match.url}${linkUrl}`)}
       >
         <BackgroundImageContainer
           className="background-image"
@@ -43,4 +44,4 @@ class MenuItem extends Component {
   }
 }
 
-export default MenuItem;
+export default withRouter(MenuItem);

@@ -18,8 +18,8 @@ class Directory extends React.Component {
             title={title}
             imageUrl={imageUrl}
             size={size}
-            linkUrl={linkUrl}
             className={title}
+            linkUrl={linkUrl}
           />
         ))}
       </DirectoryMenuContainer>
